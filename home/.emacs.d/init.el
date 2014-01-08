@@ -20,6 +20,8 @@
  '(ido-use-virtual-buffers t)
  '(inhibit-startup-screen t)
  '(initial-scratch-message "")
+ '(jedi:server-command (quote ("python3" "/Users/bruno/.emacs.d/elpa/jedi-20130714.1228/jediepcserver.py")))
+ '(jedi:setup-keys t)
  '(make-backup-files nil)
  '(menu-bar-mode t)
  '(merlin-use-auto-complete-mode t)
@@ -43,7 +45,7 @@
  '(powerline-active1 ((t (:inherit mode-line :background "indian red"))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "gray80")))))
 
-(defvar my-packages 
+(defvar my-packages
   '(ag
     auto-complete
     cus-edit+
@@ -51,6 +53,7 @@
     flycheck-tip
     magit
     ido-ubiquitous
+    jedi
     powerline
     smex
     tuareg
