@@ -112,6 +112,10 @@
 (require 'merlin)
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 
+;; Python
+
+(add-hook 'python-mode-hook 'jedi:setup)
+
 ;;;; Flycheck
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
