@@ -6,7 +6,7 @@ set -x PATH /Users/bruno/.opam/system/bin /usr/bin /bin /usr/sbin /sbin /usr/loc
 
 # Prompt (user, host, cwd, git branch/status)
 function fish_prompt
-    printf '%s%s@%s%s' (set_color brown) (whoami) (hostname|cut -d . -f 1) (set_color normal)
+    printf '%s%s%s' (set_color brown) (hostname|cut -d . -f 1) (set_color normal)
 
     # Color writeable dirs green, read-only dirs red
     if test -w "."
