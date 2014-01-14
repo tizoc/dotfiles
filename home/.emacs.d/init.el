@@ -6,7 +6,8 @@
  '(ag-highlight-search t)
  '(baud-rate 38400)
  '(column-number-mode t)
- '(custom-enabled-themes (quote (tango)))
+ '(custom-enabled-themes (quote (dark-font-lock)))
+ '(custom-safe-themes (quote ("6cf0e8d082a890e94e4423fc9e222beefdbacee6210602524b7c84d207a5dfb5" default)))
  '(custom-theme-load-path (quote ("~/.emacs.d/themes" custom-theme-directory t)))
  '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
  '(flycheck-python-flake8-executable "pyflakes")
@@ -51,8 +52,11 @@
     cus-edit+
     flycheck
     flycheck-tip
+    go-eldoc
+    go-mode
     magit
     ido-ubiquitous
+    idris-mode
     jedi
     powerline
     smex
@@ -99,6 +103,7 @@
 
 ;; Initializations
 
+(windmove-default-keybindings)
 (ido-mode t)
 (show-paren-mode 1)
 (powerline-default-theme)
