@@ -107,6 +107,7 @@
 (ido-mode t)
 (show-paren-mode 1)
 (powerline-default-theme)
+;; (electric-indent-mode 1)
 
 ;; OCaml
 
@@ -119,6 +120,10 @@
 
 (require 'merlin)
 (add-hook 'tuareg-mode-hook 'merlin-mode)
+
+(autoload 'utop "utop" "Toplevel for OCaml" t)
+(autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
+(add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
 
 ;; Python
 
