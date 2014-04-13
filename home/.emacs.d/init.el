@@ -6,8 +6,7 @@
  '(ag-highlight-search t)
  '(baud-rate 38400)
  '(column-number-mode t)
- '(custom-enabled-themes (quote (dark-font-lock)))
- '(custom-safe-themes (quote ("6cf0e8d082a890e94e4423fc9e222beefdbacee6210602524b7c84d207a5dfb5" default)))
+ '(custom-safe-themes (quote ("1c6693b96aab150f9739f19fc423770e0eb0b4cb8e2a95c8c6c48abcae719521" "bf648fd77561aae6722f3d53965a9eb29b08658ed045207fe32ffed90433eb52" "fc2782b33667eb932e4ffe9dac475f898bf7c656f8ba60e2276704fabb7fa63b" "6cf0e8d082a890e94e4423fc9e222beefdbacee6210602524b7c84d207a5dfb5" default)))
  '(custom-theme-load-path (quote ("~/.emacs.d/themes" custom-theme-directory t)))
  '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
  '(flycheck-python-flake8-executable "pyflakes")
@@ -21,7 +20,7 @@
  '(ido-use-virtual-buffers t)
  '(inhibit-startup-screen t)
  '(initial-scratch-message "")
- '(jedi:server-command (quote ("python3" "/Users/bruno/.emacs.d/elpa/jedi-20130714.1228/jediepcserver.py")))
+ '(jedi:server-command (quote ("python3" "/Users/bruno/.emacs.d/elpa/jedi-20140321.1323/jediepcserver.py")))
  '(jedi:setup-keys t)
  '(make-backup-files nil)
  '(menu-bar-mode t)
@@ -33,7 +32,8 @@
  '(scalable-fonts-allowed t)
  '(scroll-bar-mode nil)
  '(shell-file-name "/bin/bash")
- '(show-paren-style (quote mixed))
+ '(show-paren-style (quote parenthesis))
+ '(speedbar-use-images nil)
  '(tool-bar-mode nil)
  '(url-cookie-file "/Users/bruno/.emacs.d/url/cookies")
  '(url-history-file "/Users/bruno/.emacs.d/url/history"))
@@ -43,7 +43,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(powerline-active1 ((t (:inherit mode-line :background "indian red"))))
+ '(mode-line ((t (:box (:line-width 1 :color "#2c3e50")))))
+ '(mode-line-inactive ((t (:inherit mode-line :box (:line-width 1 :color "#dfe4ea")))))
+ '(powerline-active1 ((t (:inherit mode-line :background "#6700B9" :foreground "white"))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "gray80")))))
 
 (defvar my-packages
@@ -60,6 +62,7 @@
     jedi
     powerline
     smex
+    sr-speedbar
     tuareg
     wgrep
     wgrep-ag
@@ -72,7 +75,7 @@
           '((top . 40)
             (left . 65)
             (height . 44)
-            (width . 160))))
+            (width . 110))))
 
 ;;;; Settings
 
@@ -88,7 +91,6 @@
 			'("/Applications/Emacs.app/Contents/MacOS/libexec"
 			  "/Applications/Emacs.app/Contents/MacOS/bin")))
 
-;; Packages
 
 (require 'package)
 (package-initialize)
@@ -103,10 +105,12 @@
 
 ;; Initializations
 
+(load-theme 'flatui)
+
 (windmove-default-keybindings)
 (ido-mode t)
 (show-paren-mode 1)
-(powerline-default-theme)
+;; (powerline-default-theme)
 ;; (electric-indent-mode 1)
 
 ;; OCaml
@@ -125,6 +129,12 @@
 (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
 (add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
 
+;; Shen
+
+;; For some reason this is not handled by the package setup
+
+(require 'shen-mode)
+
 ;; Python
 
 (add-hook 'python-mode-hook 'jedi:setup)
@@ -140,10 +150,21 @@
 
 (global-set-key (kbd "M-x") 'smex)
 
+(global-set-key (kbd "C-<tab>") 'sr-speedbar-toggle)
+
 (add-hook 'ag-mode-hook 'wgrep-custom-bindings)
 
 (global-set-key [remap move-beginning-of-line]
                 'smarter-move-beginning-of-line)
+
+;; Speedbar
+
+(mapc 'speedbar-add-supported-extension  
+      '(".ml" ".mli"))
+(sr-speedbar-open)
+
+(with-current-buffer sr-speedbar-buffer-name
+  (setq window-size-fixed 'width))
 
 ;;;; Defuns
 
