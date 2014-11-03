@@ -1,8 +1,6 @@
-set -x CAML_LD_LIBRARY_PATH /Users/bruno/.opam/system/lib/stublibs /usr/local/lib/ocaml/stublibs
-set -x PERL5LIB /Users/bruno/.opam/system/lib/perl5
-set -x OCAML_TOPLEVEL_PATH /Users/bruno/.opam/system/lib/toplevel
-set -x MANPATH /Users/bruno/.opam/system/man /usr/local/share/man /usr/share/man
-set -x PATH /Users/bruno/.opam/system/bin /usr/local/bin /usr/bin /bin /usr/sbin /sbin
+set -x MANPATH /usr/share/man/
+# set -x PATH ~/ocamlbrew/ocaml-4.02.0/bin/ $PATH
+eval (opam config env)
 
 # Prompt (user, host, cwd, git branch/status)
 function fish_prompt
