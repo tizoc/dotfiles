@@ -4,12 +4,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ag-highlight-search t)
+ '(ansi-color-names-vector ["#ecf0f1" "#e74c3c" "#2ecc71" "#f1c40f" "#2492db" "#9b59b6" "#1abc9c" "#2c3e50"])
  '(baud-rate 38400)
  '(column-number-mode t)
- '(custom-safe-themes (quote ("1c6693b96aab150f9739f19fc423770e0eb0b4cb8e2a95c8c6c48abcae719521" "bf648fd77561aae6722f3d53965a9eb29b08658ed045207fe32ffed90433eb52" "fc2782b33667eb932e4ffe9dac475f898bf7c656f8ba60e2276704fabb7fa63b" "6cf0e8d082a890e94e4423fc9e222beefdbacee6210602524b7c84d207a5dfb5" default)))
+ '(custom-safe-themes (quote ("1011be33e9843afd22d8d26b031fbbb59036b1ce537d0b250347c19e1bd959d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "9fa173ced2e7a4d0a8e5aa702701629fa17b52c800391c37ea6678b8e790f7cd" "cd8130f57c8deaa95bfb08bf20dc724fe22a4ca03a346b61088ef9079ae3d0a5" "50edb7914e8d369bc03820d2dcde7e74b7efe2af5a39511d3a130508e2f6ac8f" "1c6693b96aab150f9739f19fc423770e0eb0b4cb8e2a95c8c6c48abcae719521" "bf648fd77561aae6722f3d53965a9eb29b08658ed045207fe32ffed90433eb52" "fc2782b33667eb932e4ffe9dac475f898bf7c656f8ba60e2276704fabb7fa63b" "6cf0e8d082a890e94e4423fc9e222beefdbacee6210602524b7c84d207a5dfb5" default)))
  '(custom-theme-load-path (quote ("~/.emacs.d/themes" custom-theme-directory t)))
  '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
+ '(fci-rule-color "#f1c40f")
  '(flycheck-python-flake8-executable "pyflakes")
+ '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
+ '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
  '(ido-auto-merge-work-directories-length nil)
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
@@ -18,13 +22,13 @@
  '(ido-ubiquitous-mode t)
  '(ido-use-filename-at-point (quote guess))
  '(ido-use-virtual-buffers t)
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(initial-scratch-message "")
  '(jedi:server-command (quote ("python3" "/Users/bruno/.emacs.d/elpa/jedi-20140321.1323/jediepcserver.py")))
  '(jedi:setup-keys t)
  '(make-backup-files nil)
  '(menu-bar-mode t)
- '(merlin-use-auto-complete-mode t)
  '(ns-alternate-modifier (quote none))
  '(ns-command-modifier (quote meta))
  '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("melpa" . "http://melpa.milkbox.net/packages/"))))
@@ -33,10 +37,17 @@
  '(scroll-bar-mode nil)
  '(shell-file-name "/bin/bash")
  '(show-paren-style (quote parenthesis))
+ '(sml/active-background-color "#34495e")
+ '(sml/active-foreground-color "#ecf0f1")
+ '(sml/inactive-background-color "#dfe4ea")
+ '(sml/inactive-foreground-color "#34495e")
  '(speedbar-use-images nil)
  '(tool-bar-mode nil)
  '(url-cookie-file "/Users/bruno/.emacs.d/url/cookies")
- '(url-history-file "/Users/bruno/.emacs.d/url/history"))
+ '(url-history-file "/Users/bruno/.emacs.d/url/history")
+ '(vc-annotate-background "#ecf0f1")
+ '(vc-annotate-color-map (quote ((30 . "#e74c3c") (60 . "#c0392b") (90 . "#e67e22") (120 . "#d35400") (150 . "#f1c40f") (180 . "#d98c10") (210 . "#2ecc71") (240 . "#27ae60") (270 . "#1abc9c") (300 . "#16a085") (330 . "#2492db") (360 . "#0a74b9"))))
+ '(vc-annotate-very-old-color "#0a74b9"))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -52,6 +63,7 @@
   '(ag
     auto-complete
     cus-edit+
+    diff-hl
     flycheck
     flycheck-tip
     go-eldoc
@@ -62,7 +74,7 @@
     jedi
     powerline
     smex
-    sr-speedbar
+    ;;sr-speedbar
     tuareg
     wgrep
     wgrep-ag
@@ -79,18 +91,13 @@
 
 ;;;; Settings
 
-(setenv "CAML_LD_LIBRARY_PATH" "/Users/bruno/.opam/system/lib/stublibs:/usr/local/lib/ocaml/stublibs")
-(setenv "OCAML_TOPLEVEL_PATH" "/Users/bruno/.opam/system/lib/toplevel")
+(defvar *opam-prefix* (substring
+                       (shell-command-to-string
+                        "/usr/local/bin/opam config var prefix 2> /dev/null")
+                       0 -1))
 
-(setenv "PATH" (concat
-		(expand-file-name "~/.opam/system/bin/") ":"
-		"/usr/local/bin" ":"
-		(getenv "PATH")))
-
-(setq exec-path (append (split-string (getenv "PATH") ":")
-			'("/Applications/Emacs.app/Contents/MacOS/libexec"
-			  "/Applications/Emacs.app/Contents/MacOS/bin")))
-
+(setenv "CAML_LD_LIBRARY_PATH" (concat *opam-prefix* "/lib/stublibs:/usr/local/lib/ocaml/stublibs"))
+(setenv "OCAML_TOPLEVEL_PATH" (concat *opam-prefix* "/lib/toplevel"))
 
 (require 'package)
 (package-initialize)
@@ -105,7 +112,7 @@
 
 ;; Initializations
 
-(load-theme 'flatui)
+(load-theme 'soft-stone)
 
 (windmove-default-keybindings)
 (ido-mode t)
@@ -116,14 +123,17 @@
 ;; OCaml
 
 (add-to-list 'load-path (concat
-  (replace-regexp-in-string "\n$" ""
-    (shell-command-to-string "opam config var share"))
-  "/emacs/site-lisp"))
+  *opam-prefix* "/share/emacs/site-lisp"))
 
 (require 'ocp-indent)
+;(require 'ocp-index)
 
 (require 'merlin)
 (add-hook 'tuareg-mode-hook 'merlin-mode)
+(add-hook 'caml-mode-hook 'merlin-mode t)
+
+(setq merlin-use-auto-complete-mode t)
+(setq merlin-command 'opam)
 
 (autoload 'utop "utop" "Toplevel for OCaml" t)
 (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
@@ -150,7 +160,7 @@
 
 (global-set-key (kbd "M-x") 'smex)
 
-(global-set-key (kbd "C-<tab>") 'sr-speedbar-toggle)
+;;(global-set-key (kbd "C-<tab>") 'sr-speedbar-toggle)
 
 (add-hook 'ag-mode-hook 'wgrep-custom-bindings)
 
@@ -159,12 +169,14 @@
 
 ;; Speedbar
 
-(mapc 'speedbar-add-supported-extension  
-      '(".ml" ".mli"))
-(sr-speedbar-open)
+;; (require 'speedbar)
 
-(with-current-buffer sr-speedbar-buffer-name
-  (setq window-size-fixed 'width))
+;; (mapc 'speedbar-add-supported-extension  
+;;       '(".ml" ".mli" ".lua"))
+;; (sr-speedbar-open)
+
+;; (with-current-buffer sr-speedbar-buffer-name
+;;   (setq window-size-fixed 'width))
 
 ;;;; Defuns
 
@@ -199,3 +211,17 @@ point reaches the beginning or end of the buffer, stop there."
 ;;;; Enabled "dangerous" settings
 
 (put 'dired-find-alternate-file 'disabled nil)
+
+;;;; Fix paths
+
+(setenv "PATH" (concat
+                *opam-prefix* "/bin" ":"
+		"/usr/local/bin" ":"
+		(getenv "PATH")))
+
+(setq exec-path (append (split-string (getenv "PATH") ":")
+			'("/Applications/Emacs.app/Contents/MacOS/libexec"
+			  "/Applications/Emacs.app/Contents/MacOS/bin")))
+
+(provide 'init)
+;;; init.el ends here
